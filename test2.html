@@ -27,8 +27,39 @@
                   <h2>Orlando Safe Streets Project</h2>
             <div id="map"></div>
 
-                 <br>
+                 <div class="container">
 
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="homicide" checked="checked" onclick="check()">
+                        <label class="form-check-label" for="inlineCheckbox1">Homicide</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="theft" checked="checked" onclick="check()">
+                        <label class="form-check-label" for="inlineCheckbox2">Theft</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="robbery" checked="checked" onclick="check()">
+                        <label class="form-check-label" for="inlineCheckbox3">Robbery</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="vehicle" checked="checked" onclick="check()">
+                        <label class="form-check-label" for="inlineCheckbox4">Vehicle Theft</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="assault" checked="checked" onclick="check()">
+                        <label class="form-check-label" for="inlineCheckbox5">Assault</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="narcotics" checked="checked" onclick="check()">
+                        <label class="form-check-label" for="inlineCheckbox6">Narcotics</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="neighborhoods" checked="checked" onclick="check()">
+                        <label class="form-check-label" for="inlineCheckbox7">Neighborhoods</label>
+                      </div>
+                  </div>
+
+                  <br>
     <form>
             <div class="form">
                 <div class="input-group mb-3">
@@ -47,6 +78,18 @@
       //initialize map and center it//
       var map;
       url = 'https://data.cityoforlando.net/resource/6qd7-sr7g.json?case_offense_type=Aggravated assault';
+      var hMarker = new google.maps.Marker({
+                  position: new google.maps.LatLng(entry.location.coordinates[1], 
+                                                   entry.location.coordinates[0]),
+                  map: map,
+                  icon: 'red_MarkerH.png',
+                  title: location.name
+              });
+
+      var kml_url = "https://data.cityoforlando.net/api/geospatial/dpx3-qjrc?method=export&format=KML";    
+
+
+
 
 function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
@@ -56,10 +99,14 @@ function initMap() {
 
     var kml_url = "https://data.cityoforlando.net/api/geospatial/dpx3-qjrc?method=export&format=KML";    
 
-    var laBoundaries = new google.maps.KmlLayer({
-        url: kml_url,
-        map: map
-    });
+    var laBoundaries = new google.maps.KmlLayer({url: kml_url, map: map});
+    var tMarker = new google.maps.Marker({
+                  position: new google.maps.LatLng(entry.location.coordinates[1], 
+                                                   entry.location.coordinates[0]),
+                  map: map,
+                  icon: 'yellow_MarkerT.png',
+                  title: location.name
+              });
 
 //END initialize map and center it//
 
@@ -254,10 +301,10 @@ $.ajax({
   // alert("Retrieved " + data.length + " records from the dataset!");
   console.log(data);
 
- var bMarker;
+ var vMarker;
 
           $.each(data, function(i, entry) {
-              var bMarker = new google.maps.Marker({
+              var vMarker = new google.maps.Marker({
                   position: new google.maps.LatLng(entry.location.coordinates[1], 
                                                    entry.location.coordinates[0]),
                   map: map,
@@ -307,13 +354,79 @@ $.ajax({
 //END ajax call for Robbery data//
 
 
+// check();
+
+    function check() 
+{
+
+if(document.getElementById('homicide').checked)
+
+      {hMarker.setMap(map);}
+
+    else 
+
+      {hMarker.setMap(null);}
+
+if(document.getElementById('neighborhoods').checked)
+
+      {kml_url.setMap(map);}
+
+    else 
+
+      {kml_url.setMap(null);}
+
+if(document.getElementById('theft').checked)
+
+       {tMarker.setMap(map);}
+
+    else
+
+       {tMarker.setMap(null);}
+
+if(document.getElementById('robbery').checked)
+
+        {rMarker.setMap(map);}
+
+    else
+
+        {rMarker.setMap(null);}
+
+if(document.getElementById('vehicle').checked)
+
+        {vMarker.setMap(map);}
+
+    else
+
+        {vMarker.setMap(null);}
+
+if(document.getElementById('assault').checked)
+
+        {aMarker.setMap(map);}
+
+    else
+
+        {aMarker.setMap(null);}
+
+if(document.getElementById('narcotics').checked)
+
+        {nMarker.setMap(map);}
+
+    else
+
+        {nMarker.setMap(null);}
+
+}
+
+
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
 
     </script>
 
+                                                             
 
-Robbery
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_DEpDpIsPJFO4wxpCxjr6cJu20USSmAw&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXBh0Pf9RVhVuXh6YzaTHZJPDx_LSQgB0&callback=initMap"
     async defer></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
