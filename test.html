@@ -1,94 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+<html>
+  <head>
+    <title>Map user location test</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
     crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-
-
-  <title>Project 2 test!</title>
-</head>
-
-<body>
-
-  <div class="container">
-    <div class=jumbotron>
-      <form>
-
-        <div class="form">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend ">
-                    <button class="button btn-warning" type="button" id="button-addon1">Enter Orlando Street Address</button>
-                </div>
-                <input type="text" class="form-control col-md-3 " placeholder="Example - 1324 Robinson Street FL">
-            </div>
-      </form>
-
+    <meta charset="utf-8">
+    <style>
+ 
+      #map {
+        height: 500px;
+      }
       
-            <div id="map"></div>
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_DEpDpIsPJFO4wxpCxjr6cJu20USSmAw"></script>
-            <script>
-              var map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: 28.23, lng: -82.44},
-                zoom: 8
-              });
-            </script>
-        
+      html, body {
+        height: 100%;
+        margin: 10px;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+      
+    <div class=container>
+            <div class=jumbotron>
+                  <h2>Orlando Safe Streets Project</h2>
 
-    </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+              <div id="map"></div>
 
+              </div>
+          
 
-    <div class="container">
-      <div id='map' style='width: 400px; height: 300px;'></div>
+                 <div class="container">
 
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="homicide" checked="checked" onclick="homicide()">
+                        <label class="form-check-label" for="inlineCheckbox1">Homicide</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="theft" checked="checked" onclick="check()">
+                        <label class="form-check-label" for="inlineCheckbox2">Theft</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="robbery" checked="checked" onclick="check()">
+                        <label class="form-check-label" for="inlineCheckbox3">Robbery</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="vehicle" checked="checked" onclick="check()">
+                        <label class="form-check-label" for="inlineCheckbox4">Vehicle Theft</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="assault" checked="checked" onclick="check()">
+                        <label class="form-check-label" for="inlineCheckbox5">Assault</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="narcotics" checked="checked" onclick="check()">
+                        <label class="form-check-label" for="inlineCheckbox6">Narcotics</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="neighborhoods" checked="checked" onclick="check()">
+                        <label class="form-check-label" for="inlineCheckbox7">Neighborhoods</label>
+                      </div>
+                  </div>
 
-
-
-    </div>
-  </div>
-
-
-
-
-  </div>
-
+                  <br>
+    <form>
+            <div class="form">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend ">
+                        <button class="button btn-warning" type="button" id="button">Enter Street Only</button>
+                    </div>
+                    <input type="text" class="form-control col-md-6 " placeholder="Ex. - 1324 Robinson St">
+                </div>
+          </form>
+</div>
+</div>
 
 
 
 <script type="text/javascript">
 
-
+var map;
+var markers = [];
 
 
 
 $(".button").on("click", function (event) {
 
-event.preventDefault();
+    event.preventDefault();
 
 var apiKeyMapquest = "ua7RUmNymQq5oRMabONKpUlrpGpV3M6s";
 var userInput = $("input").val();
-var cityState = userInput.trim();
-console.log(cityState);
+var street = userInput.trim();
+console.log(street);
 
-var queryUrl =
-    "https://www.mapquestapi.com/geocoding/v1/address?key=" +
-    apiKeyMapquest +
-    "&location=" +
-    cityState;
-console.log(queryUrl);
+    var queryUrl = "https://www.mapquestapi.com/geocoding/v1/address?key=" + apiKeyMapquest + "&location=" + cityState;
+    console.log(queryUrl);
 
 $.ajax({
     url: queryUrl,
@@ -97,9 +104,27 @@ $.ajax({
     var results = response.results;
     console.log(results);
 
+
+    var lat = results[0].locations[0].displayLatLng.lat;
+    var lon = results[0].locations[0].displayLatLng.lng;
+    console.log(lat);
+    console.log(lon);
+    var userLocation = {lat, lon};
+    console.log(userLocation);
+   
+    
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: userLocation,
+          zoom: 5
+        });
+
+
 },
-)}
-,)
+)},
+
+)
+
+
 
   </script>
 
@@ -107,6 +132,8 @@ $.ajax({
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXBh0Pf9RVhVuXh6YzaTHZJPDx_LSQgB0&callback=initMap"
+async defer></script>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
@@ -114,3 +141,12 @@ $.ajax({
 </body>
 
 </html>
+
+
+
+
+
+// var kml_url = "https://data.cityoforlando.net/api/geospatial/dpx3-qjrc?method=export&format=KML";    
+// var laBoundaries = new google.maps.KmlLayer({url: kml_url,map: map});
+
+// markers.push(laBoundaries);

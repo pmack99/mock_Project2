@@ -96,34 +96,12 @@ function initMap() {
         });
 
     var kml_url = "https://data.cityoforlando.net/api/geospatial/dpx3-qjrc?method=export&format=KML";    
+    var laBoundaries = new google.maps.KmlLayer({url: kml_url,map: map});
 
-var laBoundaries = new google.maps.KmlLayer({url: kml_url,map: map});
-
-markers.push(laBoundaries);
+    markers.push(laBoundaries);
 }
 
 //END initialize map and center it//
-
-
-
-$(".button").on("click", function (event) {
-
-    event.preventDefault();
-    var userInput = $("input").val();
-    var cityState = userInput.trim();
-
-
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {cityState},
-          zoom: 5
-        });
-
- });
-
-
-
-
-
 
 
 
