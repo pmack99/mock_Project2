@@ -89,42 +89,42 @@ var markers = [];
 
 
       
-function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 28.5383, lng: -81.3792},
-          zoom: 5
-        });
-
-    var kml_url = "https://data.cityoforlando.net/api/geospatial/dpx3-qjrc?method=export&format=KML";    
-
-var laBoundaries = new google.maps.KmlLayer({url: kml_url,map: map});
-
-markers.push(laBoundaries);
-}
-
-//END initialize map and center it//
-
-
-
 $(".button").on("click", function (event) {
 
     event.preventDefault();
+
+    var apiKeyMapquest = "ua7RUmNymQq5oRMabONKpUlrpGpV3M6s";
     var userInput = $("input").val();
     var cityState = userInput.trim();
 
 
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {cityState},
+    var queryUrl ="https://www.mapquestapi.com/geocoding/v1/address?key=" + apiKeyMapquest +"&location=" +cityState;
+    console.log(cityState);
+
+$.ajax({url: queryUrl, method: "GET"}).then(function (response) {
+    var results = response.results;
+    console.log(results);
+
+    var map ;
+    var lat = results[0].locations[0].displayLatLng.lat;
+    var lng = results[0].locations[0].displayLatLng.lng;
+
+    map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat, lng},
           zoom: 5
         });
 
- });
+    var kml_url = "https://data.cityoforlando.net/api/geospatial/dpx3-qjrc?method=export&format=KML";    
+    var laBoundaries = new google.maps.KmlLayer({url: kml_url,map: map});
+
+    markers.push(laBoundaries);
+    },
+)},
+)
 
 
 
-
-
-
+//END initialize map and center it//
 
 
 //ajax call for theft//
@@ -140,8 +140,8 @@ $.ajax({
     }
 }).done(function(data) {
   // alert("Retrieved " + data.length + " records from the dataset!");
-  console.log("Theft");
-  console.log(data);
+//   console.log("Theft");
+//   console.log(data);
 
 
 
@@ -158,6 +158,10 @@ $.ajax({
           },
 
 
+
+
+
+
 //ajax call for homicide data//
 $.ajax({
     url: "https://data.cityoforlando.net/resource/6qd7-sr7g.json",
@@ -172,8 +176,8 @@ $.ajax({
 
 }).done(function(data) {
   // alert("Retrieved " + data.length + " records from the dataset!");
-  console.log("Homicide");
-  console.log(data);
+//   console.log("Homicide");
+//   console.log(data);
 
 
           $.each(data, function(i, entry) {
@@ -212,8 +216,8 @@ $.ajax({
 
 }).done(function(data) {
   // alert("Retrieved " + data.length + " records from the dataset!");
-  console.log("Assault");
-  console.log(data);
+//   console.log("Assault");
+//   console.log(data);
 
           $.each(data, function(i, entry) {
               var aMarker = new google.maps.Marker({
@@ -248,8 +252,8 @@ $.ajax({
 
 }).done(function(data) {
   // alert("Retrieved " + data.length + " records from the dataset!");
-  console.log("Burglary");
-  console.log(data);
+//   console.log("Burglary");
+//   console.log(data);
 
           $.each(data, function(i, entry) {
               var bMarker = new google.maps.Marker({
@@ -285,8 +289,8 @@ $.ajax({
 
 }).done(function(data) {
   // alert("Retrieved " + data.length + " records from the dataset!");
-  console.log("Narcotics");
-  console.log(data);
+//   console.log("Narcotics");
+//   console.log(data);
 
           $.each(data, function(i, entry) {
               var bMarker = new google.maps.Marker({
@@ -320,8 +324,8 @@ $.ajax({
 
 }).done(function(data) {
   // alert("Retrieved " + data.length + " records from the dataset!");
-  console.log("Vehicle Theft");
-  console.log(data);
+//   console.log("Vehicle Theft");
+//   console.log(data);
 
           $.each(data, function(i, entry) {
               var vMarker = new google.maps.Marker({
@@ -355,8 +359,8 @@ $.ajax({
 
 }).done(function(data) {
   // alert("Retrieved " + data.length + " records from the dataset!");
-  console.log("Robbery");
-  console.log(data);
+//   console.log("Robbery");
+//   console.log(data);
 
           $.each(data, function(i, entry) {
               var rMarker = new google.maps.Marker({
@@ -380,6 +384,7 @@ $.ajax({
 function homicide(){
     hMarker.setMap(null);
 }
+
 
 
 
