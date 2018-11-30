@@ -30,7 +30,7 @@
                  <div class="container">
 
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="homicide" checked="checked" onclick="check()">
+                        <input class="form-check-input" type="checkbox" id="homicide" checked="checked" onclick="homicide()">
                         <label class="form-check-label" for="inlineCheckbox1">Homicide</label>
                       </div>
                       <div class="form-check form-check-inline">
@@ -64,7 +64,7 @@
             <div class="form">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend ">
-                        <button class="button btn-warning" type="button" id="button-addon1">Enter Street Address</button>
+                        <button class="button btn-warning" type="button" id="button">Enter Street Address</button>
                     </div>
                     <input type="text" class="form-control col-md-6 " placeholder="Ex. - 1324 Robinson St, Orlando, FL">
                 </div>
@@ -77,6 +77,17 @@
 
       //initialize map and center it//
 var map;
+var hMarker;
+var tMarker;
+var bMarker;
+var vMarker;
+var nMarker;
+var rMarker;
+var aMarker;
+var laBoundaries;
+var markers = [];
+
+
       
 function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
@@ -90,6 +101,8 @@ var laBoundaries = new google.maps.KmlLayer({
     url: kml_url,
     map: map
 });
+
+markers.push(laBoundaries);
 
 }
 
@@ -110,9 +123,10 @@ $.ajax({
     }
 }).done(function(data) {
   // alert("Retrieved " + data.length + " records from the dataset!");
+  console.log("Theft");
   console.log(data);
 
- var tMarker;
+
 
           $.each(data, function(i, entry) {
               var tMarker = new google.maps.Marker({
@@ -122,6 +136,8 @@ $.ajax({
                   icon: 'yellow_MarkerT.png',
                   title: location.name
               });
+
+              markers.push(tMarker);
           },
 
 
@@ -139,9 +155,9 @@ $.ajax({
 
 }).done(function(data) {
   // alert("Retrieved " + data.length + " records from the dataset!");
+  console.log("Homicide");
   console.log(data);
 
- var hMarker;
 
           $.each(data, function(i, entry) {
               var hMarker = new google.maps.Marker({
@@ -151,6 +167,8 @@ $.ajax({
                   icon: 'red_MarkerH.png',
                   title: location.name
               });
+
+              markers.push(hMarker);
           },
 
           
@@ -177,9 +195,8 @@ $.ajax({
 
 }).done(function(data) {
   // alert("Retrieved " + data.length + " records from the dataset!");
+  console.log("Assault");
   console.log(data);
-
- var aMarker;
 
           $.each(data, function(i, entry) {
               var aMarker = new google.maps.Marker({
@@ -189,6 +206,8 @@ $.ajax({
                   icon: 'green_MarkerA.png',
                   title: location.name
               });
+
+              markers.push(aMarker);
           },
 
 
@@ -212,9 +231,8 @@ $.ajax({
 
 }).done(function(data) {
   // alert("Retrieved " + data.length + " records from the dataset!");
+  console.log("Burglary");
   console.log(data);
-
- var bMarker;
 
           $.each(data, function(i, entry) {
               var bMarker = new google.maps.Marker({
@@ -224,6 +242,8 @@ $.ajax({
                   icon: 'purple_MarkerB.png',
                   title: location.name
               });
+
+              markers.push(bMarker);
           },
 
 
@@ -248,9 +268,8 @@ $.ajax({
 
 }).done(function(data) {
   // alert("Retrieved " + data.length + " records from the dataset!");
+  console.log("Narcotics");
   console.log(data);
-
- var bMarker;
 
           $.each(data, function(i, entry) {
               var bMarker = new google.maps.Marker({
@@ -260,6 +279,7 @@ $.ajax({
                   icon: 'brown_MarkerN.png',
                   title: location.name
               });
+              markers.push(nMarker);
           },
 
 
@@ -283,9 +303,8 @@ $.ajax({
 
 }).done(function(data) {
   // alert("Retrieved " + data.length + " records from the dataset!");
+  console.log("Vehicle Theft");
   console.log(data);
-
- var vMarker;
 
           $.each(data, function(i, entry) {
               var vMarker = new google.maps.Marker({
@@ -295,6 +314,8 @@ $.ajax({
                   icon: 'orange_MarkerV.png',
                   title: location.name
               });
+
+              markers.push(vMarker);
           },
 
 
@@ -317,9 +338,8 @@ $.ajax({
 
 }).done(function(data) {
   // alert("Retrieved " + data.length + " records from the dataset!");
+  console.log("Robbery");
   console.log(data);
-
- var rMarker;
 
           $.each(data, function(i, entry) {
               var rMarker = new google.maps.Marker({
@@ -329,6 +349,8 @@ $.ajax({
                   icon: 'paleblue_MarkerR.png',
                   title: location.name
               });
+
+              markers.push(rMarker);
           },
 
 
@@ -338,71 +360,59 @@ $.ajax({
 //END ajax call for Robbery data//
 
 
-check();
+function homicide(){
+    hMarker.setMap(null);
+}
 
-function check(){
 
-if(document.getElementById('homicide').checked)
+$(".button").on("click", function (event) {
 
-      {hMarker.setMap(map);}
+event.preventDefault();
 
-    else 
+var apiKeyMapquest = "ua7RUmNymQq5oRMabONKpUlrpGpV3M6s";
+var userInput = $("input").val();
+var cityState = userInput.trim();
+console.log(cityState);
 
-      {hMarker.setMap(null);}
+var queryUrl =
+    "https://www.mapquestapi.com/geocoding/v1/address?key=" +
+    apiKeyMapquest +
+    "&location=" +
+    cityState;
+console.log(queryUrl);
 
-if(document.getElementById('neighborhoods').checked)
+$.ajax({
+    url: queryUrl,
+    method: "GET"
+}).then(function (response) {
+    var results = response.results;
+    console.log(results);
 
-      {kml_url.setMap(map);}
+    var map ;
+    var lat = results[0].locations[0].displayLatLng.lat;
+    var lon = results[0].locations[0].displayLatLng.lng;
 
-    else 
 
-      {kml_url.setMap(null);}
+    
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat, lon},
+          zoom: 5
+        });
 
-if(document.getElementById('theft').checked)
+        var userMarker = new google.maps.Marker({
+        position: new google.maps.LatLng(lat, lon),
+        map: map,
+        icon: 'user.png',
+        title: location.name
+              });
 
-       {tMarker.setMap(map);}
 
-    else
-
-       {tMarker.setMap(null);}
-
-if(document.getElementById('robbery').checked)
-
-        {rMarker.setMap(map);}
-
-    else
-
-        {rMarker.setMap(null);}
-
-if(document.getElementById('vehicle').checked)
-
-        {vMarker.setMap(map);}
-
-    else
-
-        {vMarker.setMap(null);}
-
-if(document.getElementById('assault').checked)
-
-        {aMarker.setMap(map);}
-
-    else
-
-        {aMarker.setMap(null);}
-
-if(document.getElementById('narcotics').checked)
-
-        {nMarker.setMap(map);}
-
-    else
-
-        {nMarker.setMap(null);}
-
-} 
+},
+)}
+,)
 
 
 
-google.maps.event.addDomListener(window, 'load', initialize);
 
 
 </script>
