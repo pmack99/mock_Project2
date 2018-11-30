@@ -97,14 +97,15 @@ function initMap() {
 
     var kml_url = "https://data.cityoforlando.net/api/geospatial/dpx3-qjrc?method=export&format=KML";    
 
-var laBoundaries = new google.maps.KmlLayer({
-    url: kml_url,
-    map: map
-});
+var laBoundaries = new google.maps.KmlLayer({url: kml_url,map: map});
 
 markers.push(laBoundaries);
 
 }
+
+
+
+
 
 
 //END initialize map and center it//
@@ -367,19 +368,16 @@ function homicide(){
 
 $(".button").on("click", function (event) {
 
-event.preventDefault();
+    event.preventDefault();
 
-var apiKeyMapquest = "ua7RUmNymQq5oRMabONKpUlrpGpV3M6s";
-var userInput = $("input").val();
-var cityState = userInput.trim();
-console.log(cityState);
+    var apiKeyMapquest = "ua7RUmNymQq5oRMabONKpUlrpGpV3M6s";
+    var userInput = $("input").val();
+    var cityState = userInput.trim();
+    
 
-var queryUrl =
-    "https://www.mapquestapi.com/geocoding/v1/address?key=" +
-    apiKeyMapquest +
-    "&location=" +
-    cityState;
-console.log(queryUrl);
+    var queryUrl =
+        "https://www.mapquestapi.com/geocoding/v1/address?key=" + apiKeyMapquest +"&location=" +cityState;
+    console.log(cityState);
 
 $.ajax({
     url: queryUrl,
@@ -390,21 +388,15 @@ $.ajax({
 
     var map ;
     var lat = results[0].locations[0].displayLatLng.lat;
-    var lon = results[0].locations[0].displayLatLng.lng;
+    var lng = results[0].locations[0].displayLatLng.lng;
 
-
-    
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat, lon},
-          zoom: 5
-        });
 
         var userMarker = new google.maps.Marker({
-        position: new google.maps.LatLng(lat, lon),
+        position: new google.maps.LatLng(lat, lng),
         map: map,
         icon: 'user.png',
         title: location.name
-              });
+        });
 
 
 },
