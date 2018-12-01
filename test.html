@@ -94,7 +94,7 @@ var userInput = $("input").val();
 var street = userInput.trim();
 console.log(street);
 
-    var queryUrl = "https://www.mapquestapi.com/geocoding/v1/address?key=" + apiKeyMapquest + "&location=" + cityState;
+    var queryUrl = "https://www.mapquestapi.com/geocoding/v1/address?key=" + apiKeyMapquest + "&location=" + street;
     console.log(queryUrl);
 
 $.ajax({
@@ -106,17 +106,18 @@ $.ajax({
 
 
     var lat = results[0].locations[0].displayLatLng.lat;
-    var lon = results[0].locations[0].displayLatLng.lng;
+    var lng = results[0].locations[0].displayLatLng.lng;
     console.log(lat);
-    console.log(lon);
-    var userLocation = {lat, lon};
+    console.log(lng);
+    var userLocation = {lat, lng};
     console.log(userLocation);
    
     
         map = new google.maps.Map(document.getElementById('map'), {
-          center: userLocation,
-          zoom: 5
+          center: {lat, lng},
+          zoom: 13
         });
+        
 
 
 },
@@ -143,10 +144,3 @@ async defer></script>
 </html>
 
 
-
-
-
-// var kml_url = "https://data.cityoforlando.net/api/geospatial/dpx3-qjrc?method=export&format=KML";    
-// var laBoundaries = new google.maps.KmlLayer({url: kml_url,map: map});
-
-// markers.push(laBoundaries);
