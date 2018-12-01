@@ -62,7 +62,7 @@
                         <label class="form-check-label" for="inlineCheckbox7">Neighborhoods</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <button type="button" class="btn btn-secondary" id="delete"  onclick="removeMarkers()"> Delete All Data</button>
+                        <button type="button" class="btn btn-secondary" id="delete"> Delete All Data</button>
                       </div>
                   </div>
 
@@ -132,22 +132,23 @@ function geocodeAddress(geocoder, resultsMap) {
 
 
 // the !check for all the input buttons, will make the AJAX call//
-$("#homicide").change(function(){
-    if ($("#homicide").prop("checked")){
+$("#homicide").change(function () {
+      if ($("#homicide").prop("checked")) {
         homicide();
+        console.log('Logging markers:');
         console.log(markers)
-    }else{
+      } else {
         removeHmarkers()
-        }
-});
+      }
+    });
 
-$("#theft").change(function(){
-    if ($("#theft").prop("checked")){
+    $("#theft").change(function () {
+      if ($("#theft").prop("checked")) {
         theft();
-    }else{
-        removeMarkers()
-        }
-});
+      } else {
+        removeTmarkers()
+      }
+    });
 
 $("#robbery").change(function(){
     if ($("#robbery").prop("checked")){
@@ -197,9 +198,18 @@ $( "#delete" ).click(function() {
 
 
 
+
 function removeHmarkers() {
-    hMarker.setMap(null);
-}
+      for (var i = 0; i < markers.homicide.length; i++) {
+          markers.homicide[i].setMap(null);
+        }
+    }
+
+function removeTmarkers() {
+      for (var i = 0; i < markers.theft.length; i++) {
+          markers.theft[i].setMap(null);
+        }
+    }
 
 
 
@@ -259,7 +269,7 @@ $.each(data, function(i, entry) {
       icon: 'yellow_MarkerT.png',
                   
     });
-    markers.push(tMarker);
+    markers.theft.push(tMarker);
     
   })
 })
@@ -268,35 +278,34 @@ $.each(data, function(i, entry) {
 
 //Homicide data
 
-function homicide(){
-$.ajax({
-    url: "https://data.cityoforlando.net/resource/6qd7-sr7g.json",
-    type: "GET",
-    data: {
-      "$limit" : 10000,
-      status: "Mapped",
-      "$q" : "2017",
-      case_offense_category: "Homicide",
-      "$$app_token" : "QWmNPsTrdyvnpvmYSgTcxBVT0"
+    function homicide() {
+      $.ajax({
+        url: "https://data.cityoforlando.net/resource/6qd7-sr7g.json",
+        type: "GET",
+        data: {
+          "$limit": 10000,
+          status: "Mapped",
+          "$q": "2017",
+          case_offense_category: "Homicide",
+          "$$app_token": "QWmNPsTrdyvnpvmYSgTcxBVT0"
+        }
+
+      }).done(function (data) {
+
+        console.log("Homicide");
+        console.log(data);
+
+        $.each(data, function (i, entry) {
+          var hMarker = new google.maps.Marker({
+            position: new google.maps.LatLng(entry.location.coordinates[1],
+              entry.location.coordinates[0]),
+            map: map,
+          });
+          markers.homicide.push(hMarker);
+        })
+      })
+
     }
-
-}).done(function(data) {
-  
-  console.log("Homicide");
-  console.log(data);
-
-          $.each(data, function(i, entry) {
-              var hMarker = new google.maps.Marker({
-                  position: new google.maps.LatLng(entry.location.coordinates[1], 
-                                                   entry.location.coordinates[0]),
-                  map: map,
-                  icon: "red_MarkerH.png",
-                });
-                markers.push(hMarker);
-  })
-})
-
-}
 
 //END Homicide
 
