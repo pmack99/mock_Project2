@@ -81,8 +81,6 @@ var nMarker;
 var rMarker;
 var aMarker;
 var laBoundaries;
-var kml_url;
-var markers = [];
 
 
       
@@ -154,9 +152,10 @@ $.each(data, function(i, entry) {
       map: map,
       icon: 'yellow_MarkerT.png',
                   
-      });
+    });
+  })
+})
 
-},
 
 
 //ajax call for homicide data//
@@ -183,18 +182,10 @@ $.ajax({
                                                    entry.location.coordinates[0]),
                   map: map,
                   icon: 'red_MarkerH.png',
-                  
-              });
+                });
+  })
+})
 
-             
-          },
-
-          
-)}
-)
-
-)}
-)
 //END ajax call for data//
 
 
@@ -222,15 +213,11 @@ $.ajax({
                                                    entry.location.coordinates[0]),
                   map: map,
                   icon: 'green_MarkerA.png',
-                 
-              });
+                });
+  })
+})
 
-          },
 
-
-          
-          )}
-)
 //END ajax call for Assault data//
 
 
@@ -257,15 +244,11 @@ $.ajax({
                                                    entry.location.coordinates[0]),
                   map: map,
                   icon: 'purple_MarkerB.png',
-                  
-              });
+                });
+  })
+})
 
-          },
 
-
-          
-          )}
-)
 //END ajax call for Burglary data//
 
 
@@ -294,13 +277,11 @@ $.ajax({
                   map: map,
                   icon: 'brown_MarkerN.png',
               });
-              markers.push(nMarker);
-          },
+    })
+})
 
+ 
 
-          
-          )}
-)
 //END ajax call for Narcotics data//
 
 
@@ -327,14 +308,11 @@ $.ajax({
                                                    entry.location.coordinates[0]),
                   map: map,
                   icon: 'orange_MarkerV.png',
-                
-              });
-          },
+                });
+  })
+})
+ 
 
-
-          
-          )}
-)
 //END ajax call for Vehicle Theft data//
 
 //ajax call for Robbery data//
@@ -360,17 +338,13 @@ $.ajax({
                                                    entry.location.coordinates[0]),
                   map: map,
                   icon: 'paleblue_MarkerR.png',
-                
-              });
-
-        
-          },
+                });
+  })
+})
 
 
-          
-          )}
-)
 //END ajax call for Robbery data//
+
 
 
 
