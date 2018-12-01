@@ -38,27 +38,27 @@
                         <label class="form-check-label" for="inlineCheckbox1">Homicide</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="theft"  onclick="theft()">
+                        <input class="form-check-input" type="checkbox" id="theft"  >
                         <label class="form-check-label" for="inlineCheckbox2">Theft</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="robbery"  onclick="robbery()">
+                        <input class="form-check-input" type="checkbox" id="robbery" >
                         <label class="form-check-label" for="inlineCheckbox3">Robbery</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="vehicle"  onclick="vehicle()">
+                        <input class="form-check-input" type="checkbox" id="vehicle" >
                         <label class="form-check-label" for="inlineCheckbox4">Vehicle Theft</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="assault"  onclick="assault()">
+                        <input class="form-check-input" type="checkbox" id="assault" >
                         <label class="form-check-label" for="inlineCheckbox5">Assault</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="narcotics"  onclick="narcotics()">
+                        <input class="form-check-input" type="checkbox" id="narcotics"  >
                         <label class="form-check-label" for="inlineCheckbox6">Narcotics</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="neighborhoods"  onclick="neighbors()">
+                        <input class="form-check-input" type="checkbox" id="neighbors" >
                         <label class="form-check-label" for="inlineCheckbox7">Neighborhoods</label>
                       </div>
                       <div class="form-check form-check-inline">
@@ -136,9 +136,60 @@ $("#homicide").change(function(){
     if ($("#homicide").prop("checked")){
         homicide();
     }else{
-        hMarker.setMap(null);
+        removeMarkers()
         }
-    });
+});
+
+$("#theft").change(function(){
+    if ($("#theft").prop("checked")){
+        theft();
+    }else{
+        removeMarkers()
+        }
+});
+
+$("#robbery").change(function(){
+    if ($("#robbery").prop("checked")){
+        robbery();
+    }else{
+        removeMarkers()
+        }
+});
+
+$("#vehicle").change(function(){
+    if ($("#vehicle").prop("checked")){
+        vehicle();
+    }else{
+        removeMarkers()
+        }
+});
+
+$("#assault").change(function(){
+    if ($("#assault").prop("checked")){
+        assault();
+    }else{
+        removeMarkers()
+        }
+});
+
+$("#narcotics").change(function(){
+    if ($("#narcotics").prop("checked")){
+        narcotics();
+    }else{
+        removeMarkers()
+        }
+});
+
+$("#neighbors").change(function(){
+    if ($("#neighbors").prop("checked")){
+        neighbors();
+    }else{
+        laBoundaries.setMap(null);
+        }
+});
+
+
+
 
 
 
