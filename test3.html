@@ -34,31 +34,31 @@
                  <div class="container">
 
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="homicide" checked="checked" onclick="homicide()">
+                        <input class="form-check-input" type="checkbox" id="homicide"  onclick="homicide()">
                         <label class="form-check-label" for="inlineCheckbox1">Homicide</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="theft" checked="checked" onclick="check()">
+                        <input class="form-check-input" type="checkbox" id="theft"  onclick="theft()">
                         <label class="form-check-label" for="inlineCheckbox2">Theft</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="robbery" checked="checked" onclick="check()">
+                        <input class="form-check-input" type="checkbox" id="robbery"  onclick="robbery()">
                         <label class="form-check-label" for="inlineCheckbox3">Robbery</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="vehicle" checked="checked" onclick="check()">
+                        <input class="form-check-input" type="checkbox" id="vehicle"  onclick="vehicle()">
                         <label class="form-check-label" for="inlineCheckbox4">Vehicle Theft</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="assault" checked="checked" onclick="check()">
+                        <input class="form-check-input" type="checkbox" id="assault"  onclick="assault()">
                         <label class="form-check-label" for="inlineCheckbox5">Assault</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="narcotics" checked="checked" onclick="check()">
+                        <input class="form-check-input" type="checkbox" id="narcotics"  onclick="narcotics()">
                         <label class="form-check-label" for="inlineCheckbox6">Narcotics</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="neighborhoods" checked="checked" onclick="check()">
+                        <input class="form-check-input" type="checkbox" id="neighborhoods"  onclick="neighbors()">
                         <label class="form-check-label" for="inlineCheckbox7">Neighborhoods</label>
                       </div>
                   </div>
@@ -73,14 +73,15 @@
 
       //initialize map and center it//
 var map;
-var hMarker;
 var tMarker;
 var bMarker;
 var vMarker;
 var nMarker;
 var rMarker;
 var aMarker;
-var laBoundaries;
+var hMarker;
+
+
 
 
       
@@ -90,9 +91,7 @@ function initMap() {
           center: {lat: 28.5383, lng: -81.3792}
         });
 
-    //Neighborhood coloring//
-    // var kml_url = "https://data.cityoforlando.net/api/geospatial/dpx3-qjrc?method=export&format=KML";    
-    // laBoundaries = new google.maps.KmlLayer({url: kml_url,map: map, zoom: 13});
+
 
 
     var geocoder = new google.maps.Geocoder();
@@ -128,8 +127,18 @@ function geocodeAddress(geocoder, resultsMap) {
 //END initialize map and center it//
 
 
+//Neighborhood coloring//
+function neighbors(){
+    
+    var kml_url = "https://data.cityoforlando.net/api/geospatial/dpx3-qjrc?method=export&format=KML";    
+    laBoundaries = new google.maps.KmlLayer({url: kml_url,map: map, zoom: 13});
+}
+//END Neighborhoods
+
+
 
 //ajax call for theft//
+function theft(){
 $.ajax({
     url: "https://data.cityoforlando.net/resource/6qd7-sr7g.json",
     type: "GET",
@@ -141,7 +150,6 @@ $.ajax({
       "$$app_token" : "QWmNPsTrdyvnpvmYSgTcxBVT0"
     }
 }).done(function(data) {
-  // alert("Retrieved " + data.length + " records from the dataset!");
   console.log("Theft");
   console.log(data);
 
@@ -155,10 +163,12 @@ $.each(data, function(i, entry) {
     });
   })
 })
+}
 
 
+//Homicide data
 
-//ajax call for homicide data//
+function homicide(){
 $.ajax({
     url: "https://data.cityoforlando.net/resource/6qd7-sr7g.json",
     type: "GET",
@@ -171,26 +181,30 @@ $.ajax({
     }
 
 }).done(function(data) {
-  // alert("Retrieved " + data.length + " records from the dataset!");
+  
   console.log("Homicide");
   console.log(data);
-
 
           $.each(data, function(i, entry) {
               var hMarker = new google.maps.Marker({
                   position: new google.maps.LatLng(entry.location.coordinates[1], 
                                                    entry.location.coordinates[0]),
                   map: map,
-                  icon: 'red_MarkerH.png',
+                  icon: "red_MarkerH.png",
                 });
   })
 })
 
-//END ajax call for data//
+}
+
+//END Homicide
+
+
 
 
 
 //ajax call for Assault data//
+function assault(){
 $.ajax({
     url: "https://data.cityoforlando.net/resource/6qd7-sr7g.json",
     type: "GET",
@@ -203,7 +217,7 @@ $.ajax({
     }
 
 }).done(function(data) {
-  // alert("Retrieved " + data.length + " records from the dataset!");
+  
   console.log("Assault");
   console.log(data);
 
@@ -216,12 +230,13 @@ $.ajax({
                 });
   })
 })
-
+}
 
 //END ajax call for Assault data//
 
 
 //ajax call for burglary data//
+function burglary(){
 $.ajax({
     url: "https://data.cityoforlando.net/resource/6qd7-sr7g.json",
     type: "GET",
@@ -234,7 +249,7 @@ $.ajax({
     }
 
 }).done(function(data) {
-  // alert("Retrieved " + data.length + " records from the dataset!");
+  
   console.log("Burglary");
   console.log(data);
 
@@ -247,13 +262,14 @@ $.ajax({
                 });
   })
 })
-
+}
 
 //END ajax call for Burglary data//
 
 
 
 //ajax call for Narcotics data//
+function narcotics(){
 $.ajax({
     url: "https://data.cityoforlando.net/resource/6qd7-sr7g.json",
     type: "GET",
@@ -266,7 +282,7 @@ $.ajax({
     }
 
 }).done(function(data) {
-  // alert("Retrieved " + data.length + " records from the dataset!");
+  
   console.log("Narcotics");
   console.log(data);
 
@@ -279,13 +295,14 @@ $.ajax({
               });
     })
 })
-
+}
  
 
 //END ajax call for Narcotics data//
 
 
 //ajax call for Vehicle Theft data//
+function vehicle(){
 $.ajax({
     url: "https://data.cityoforlando.net/resource/6qd7-sr7g.json",
     type: "GET",
@@ -298,7 +315,7 @@ $.ajax({
     }
 
 }).done(function(data) {
-  // alert("Retrieved " + data.length + " records from the dataset!");
+ 
   console.log("Vehicle Theft");
   console.log(data);
 
@@ -311,11 +328,12 @@ $.ajax({
                 });
   })
 })
- 
+}
 
 //END ajax call for Vehicle Theft data//
 
 //ajax call for Robbery data//
+function robbery(){
 $.ajax({
     url: "https://data.cityoforlando.net/resource/6qd7-sr7g.json",
     type: "GET",
@@ -328,7 +346,7 @@ $.ajax({
     }
 
 }).done(function(data) {
-  // alert("Retrieved " + data.length + " records from the dataset!");
+  
   console.log("Robbery");
   console.log(data);
 
@@ -341,7 +359,7 @@ $.ajax({
                 });
   })
 })
-
+}
 
 //END ajax call for Robbery data//
 
