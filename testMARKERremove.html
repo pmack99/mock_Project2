@@ -62,7 +62,7 @@
                         <label class="form-check-label" for="inlineCheckbox7">Neighborhoods</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <button type="button" class="btn btn-secondary" id="Delete"  onclick="removeMarkers()"> Delete All Data</button>
+                        <button type="button" class="btn btn-secondary" id="delete"  onclick="removeMarkers()"> Delete All Data</button>
                       </div>
                   </div>
 
@@ -89,11 +89,10 @@ var markers = [];
 var laBoundaries;
 
 
-
       
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 13,
+          zoom: 15,
           center: {lat: 28.5383, lng: -81.3792}
         });
 
@@ -103,6 +102,7 @@ function initMap() {
 
         });
 
+        
 }
 
 
@@ -135,8 +135,9 @@ function geocodeAddress(geocoder, resultsMap) {
 $("#homicide").change(function(){
     if ($("#homicide").prop("checked")){
         homicide();
+        console.log(markers)
     }else{
-        removeMarkers()
+        removeHmarkers()
         }
 });
 
@@ -187,8 +188,18 @@ $("#neighbors").change(function(){
         laBoundaries.setMap(null);
         }
 });
+
+//delete button//
+$( "#delete" ).click(function() {
+    removeMarkers()
+});
 // END the !check for all the input buttons, will make the AJAX call//
 
+
+
+function removeHmarkers() {
+    hMarker.setMap(null);
+}
 
 
 
@@ -197,9 +208,9 @@ function removeMarkers() {
 
 for (var i = 0; i < markers.length; i++) {
     markers[i].setMap(null);
-    // laBoundaries.setMap(null);
+    
 }
-
+// laBoundaries.setMap(null);
 $("#homicide").prop("checked", false);
 $("#robbery").prop("checked", false);
 $("#vehicle").prop("checked", false);
