@@ -70,7 +70,6 @@
 
 
 <script>
-
       //initialize map and center it//
 var map;
 var tMarker;
@@ -80,27 +79,17 @@ var nMarker;
 var rMarker;
 var aMarker;
 var hMarker;
-var markers = [];
-var laBoundaries;
-
-
-
       
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 13,
+          zoom: 18,
           center: {lat: 28.5383, lng: -81.3792}
         });
-
     var geocoder = new google.maps.Geocoder();
     document.getElementById('submit').addEventListener('click', function() {
              geocodeAddress(geocoder, map);
-
         });
-
 }
-
-
 function geocodeAddress(geocoder, resultsMap) {
      var address = document.getElementById('address').value;
         geocoder.geocode({'address': address}, function(results, status) {
@@ -111,33 +100,20 @@ function geocodeAddress(geocoder, resultsMap) {
               map: resultsMap,
               position: results[0].geometry.location
             });
-
              $("#address").val("");
-
           } else {
             alert('Geocode was not successful for the following reason: ' + status);
-
-
           }
         });
       }
-
 //END initialize map and center it//
-
-
 //Neighborhood coloring//
 function neighbors(){
     
     var kml_url = "https://data.cityoforlando.net/api/geospatial/dpx3-qjrc?method=export&format=KML";    
     laBoundaries = new google.maps.KmlLayer({url: kml_url,map: map, zoom: 13});
-
-    markers.push(laBoundaries);
-
 }
 //END Neighborhoods
-
-
-
 //ajax call for theft//
 function theft(){
 $.ajax({
@@ -153,7 +129,6 @@ $.ajax({
 }).done(function(data) {
   console.log("Theft");
   console.log(data);
-
 $.each(data, function(i, entry) {
       tMarker = new google.maps.Marker({
       position: new google.maps.LatLng(entry.location.coordinates[1], 
@@ -162,15 +137,10 @@ $.each(data, function(i, entry) {
       icon: 'yellow_MarkerT.png',
                   
     });
-    markers.push(tMarker);
-    
   })
 })
 }
-
-
 //Homicide data
-
 function homicide(){
 $.ajax({
     url: "https://data.cityoforlando.net/resource/6qd7-sr7g.json",
@@ -182,12 +152,10 @@ $.ajax({
       case_offense_category: "Homicide",
       "$$app_token" : "QWmNPsTrdyvnpvmYSgTcxBVT0"
     }
-
 }).done(function(data) {
   
   console.log("Homicide");
   console.log(data);
-
           $.each(data, function(i, entry) {
               var hMarker = new google.maps.Marker({
                   position: new google.maps.LatLng(entry.location.coordinates[1], 
@@ -195,18 +163,10 @@ $.ajax({
                   map: map,
                   icon: "red_MarkerH.png",
                 });
-                markers.push(hMarker);
   })
 })
-
 }
-
 //END Homicide
-
-
-
-
-
 //ajax call for Assault data//
 function assault(){
 $.ajax({
@@ -219,12 +179,10 @@ $.ajax({
       case_offense_category: "Assault",
       "$$app_token" : "QWmNPsTrdyvnpvmYSgTcxBVT0"
     }
-
 }).done(function(data) {
   
   console.log("Assault");
   console.log(data);
-
           $.each(data, function(i, entry) {
               var aMarker = new google.maps.Marker({
                   position: new google.maps.LatLng(entry.location.coordinates[1], 
@@ -232,14 +190,10 @@ $.ajax({
                   map: map,
                   icon: 'green_MarkerA.png',
                 });
-                markers.push(aMarker);
   })
 })
 }
-
 //END ajax call for Assault data//
-
-
 //ajax call for burglary data//
 function burglary(){
 $.ajax({
@@ -252,12 +206,10 @@ $.ajax({
       case_offense_category: "Burglary",
       "$$app_token" : "QWmNPsTrdyvnpvmYSgTcxBVT0"
     }
-
 }).done(function(data) {
   
   console.log("Burglary");
   console.log(data);
-
           $.each(data, function(i, entry) {
               var bMarker = new google.maps.Marker({
                   position: new google.maps.LatLng(entry.location.coordinates[1], 
@@ -265,15 +217,10 @@ $.ajax({
                   map: map,
                   icon: 'purple_MarkerB.png',
                 });
-                markers.push(bMarker);
   })
 })
 }
-
 //END ajax call for Burglary data//
-
-
-
 //ajax call for Narcotics data//
 function narcotics(){
 $.ajax({
@@ -286,12 +233,10 @@ $.ajax({
       case_offense_category: "Narcotics",
       "$$app_token" : "QWmNPsTrdyvnpvmYSgTcxBVT0"
     }
-
 }).done(function(data) {
   
   console.log("Narcotics");
   console.log(data);
-
           $.each(data, function(i, entry) {
               var bMarker = new google.maps.Marker({
                   position: new google.maps.LatLng(entry.location.coordinates[1], 
@@ -299,15 +244,11 @@ $.ajax({
                   map: map,
                   icon: 'brown_MarkerN.png',
               });
-              markers.push(bMarker);
     })
 })
 }
  
-
 //END ajax call for Narcotics data//
-
-
 //ajax call for Vehicle Theft data//
 function vehicle(){
 $.ajax({
@@ -320,12 +261,10 @@ $.ajax({
       case_offense_category: "Vehicle Theft",
       "$$app_token" : "QWmNPsTrdyvnpvmYSgTcxBVT0"
     }
-
 }).done(function(data) {
  
   console.log("Vehicle Theft");
   console.log(data);
-
           $.each(data, function(i, entry) {
               var vMarker = new google.maps.Marker({
                   position: new google.maps.LatLng(entry.location.coordinates[1], 
@@ -333,13 +272,10 @@ $.ajax({
                   map: map,
                   icon: 'orange_MarkerV.png',
                 });
-                markers.push(nMarker);
   })
 })
 }
-
 //END ajax call for Vehicle Theft data//
-
 //ajax call for Robbery data//
 function robbery(){
 $.ajax({
@@ -352,12 +288,10 @@ $.ajax({
       case_offense_category: "Robbery",
       "$$app_token" : "QWmNPsTrdyvnpvmYSgTcxBVT0"
     }
-
 }).done(function(data) {
   
   console.log("Robbery");
   console.log(data);
-
           $.each(data, function(i, entry) {
               var rMarker = new google.maps.Marker({
                   position: new google.maps.LatLng(entry.location.coordinates[1], 
@@ -365,16 +299,10 @@ $.ajax({
                   map: map,
                   icon: 'paleblue_MarkerR.png',
                 });
-                markers.push(rMarker);
   })
 })
 }
-
 //END ajax call for Robbery data//
-
-
-
-
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXBh0Pf9RVhVuXh6YzaTHZJPDx_LSQgB0&callback=initMap"

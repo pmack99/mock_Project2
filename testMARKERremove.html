@@ -61,9 +61,14 @@
                         <input class="form-check-input" type="checkbox" id="neighborhoods"  onclick="neighbors()">
                         <label class="form-check-label" for="inlineCheckbox7">Neighborhoods</label>
                       </div>
+                      <div class="form-check form-check-inline">
+                        <button type="button" class="btn btn-secondary" id="Delete"  onclick="removeMarkers()"> Delete All Data</button>
+                      </div>
                   </div>
 
                   <br>
+
+                  
 
 </div>
 </div>
@@ -109,7 +114,8 @@ function geocodeAddress(geocoder, resultsMap) {
             var marker = new google.maps.Marker({
               zoom: 18,
               map: resultsMap,
-              position: results[0].geometry.location
+              position: results[0].geometry.location,
+              title: "Your new home"
             });
 
              $("#address").val("");
@@ -125,13 +131,31 @@ function geocodeAddress(geocoder, resultsMap) {
 //END initialize map and center it//
 
 
+//deletes all markers and clears all checks//
+function removeMarkers() {
+
+for (var i = 0; i < markers.length; i++) {
+    markers[i].setMap(null);
+}
+laBoundaries.setMap(null);
+$("#homicide").prop("checked", false);
+$("#robbery").prop("checked", false);
+$("#vehicle").prop("checked", false);
+$("#theft").prop("checked", false);
+$("#assault").prop("checked", false);
+$("#burglary").prop("checked", false);
+$("#narcotics").prop("checked", false);
+$("#neighborhoods").prop("checked", false);
+$("#delete").prop("checked", false);
+}
+//END deletes all markers and clears all checks//
+
+
 //Neighborhood coloring//
 function neighbors(){
     
     var kml_url = "https://data.cityoforlando.net/api/geospatial/dpx3-qjrc?method=export&format=KML";    
     laBoundaries = new google.maps.KmlLayer({url: kml_url,map: map, zoom: 13});
-
-    markers.push(laBoundaries);
 
 }
 //END Neighborhoods
@@ -333,7 +357,7 @@ $.ajax({
                   map: map,
                   icon: 'orange_MarkerV.png',
                 });
-                markers.push(nMarker);
+                markers.push(vMarker);
   })
 })
 }
