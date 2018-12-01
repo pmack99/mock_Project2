@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Orlando Maps test CURRENT</title>
+    <title>Orlando Maps Marjer removal</title>
     <meta name="viewport" content="initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
     crossorigin="anonymous">
@@ -34,7 +34,7 @@
                  <div class="container">
 
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="homicide"  onclick="homicide()">
+                        <input class="form-check-input" type="checkbox" id="homicide" >
                         <label class="form-check-label" for="inlineCheckbox1">Homicide</label>
                       </div>
                       <div class="form-check form-check-inline">
@@ -131,13 +131,26 @@ function geocodeAddress(geocoder, resultsMap) {
 //END initialize map and center it//
 
 
+
+$("#homicide").change(function(){
+    if ($("#homicide").prop("checked")){
+        homicide();
+    }else{
+        hMarker.setMap(null);
+        }
+    });
+
+
+
+
 //deletes all markers and clears all checks//
 function removeMarkers() {
 
 for (var i = 0; i < markers.length; i++) {
     markers[i].setMap(null);
+    // laBoundaries.setMap(null);
 }
-laBoundaries.setMap(null);
+
 $("#homicide").prop("checked", false);
 $("#robbery").prop("checked", false);
 $("#vehicle").prop("checked", false);
